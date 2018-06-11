@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>TimeToTaylor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script>
+      var xhr = new XMLHttpRequest();
+var obj = null;
+
+xhr.open('GET', 'https://gvitovaif0.execute-api.us-east-2.amazonaws.com/development/showtime');
+xhr.onreadystatechange = function(event) {
+  obj = JSON.parse(event.target.response);
+  $('#showtime').html(obj.showtime);
+  $('#time_to_show').html(obj.time_to_show);
+}
+xhr.send();
+
+const ms_per_second = 1000;
+const ms_per_minute = ms_per_second * 60;
+const ms_per_hour = ms_per_minute * 60;
+const ms_per_day = ms_per_hour * 24;
+var showtime = new Date("Jul 7, 2018 19:00:00").getTime();
+var countdown = setInterval(function() {
+  var time_til_show = showtime - (new Date().getTime());
+  if (time_til_show < 0) {
+    clearInterval(countdown);
+    $('#time_to_show').html('The concert was awesome!');
+  } else {
+    var days = Math.floor(time_til_show / ms_per_day);
+    var hours = Math.floor(time_til_show % ms_per_day / ms_per_hour);
+    var minutes = Math.floor(time_til_show % ms_per_hour / ms_per_minute);
+    var seconds = Math.floor(time_til_show % ms_per_minute / ms_per_second);
+    var plural = '';
+    var text = [];
+    if (days > 0) {
+      plural = (days == 1) ? '' : 's';
+      text.push(days + " day" + plural);
+    }
+    if (hours >= 0) {
+      plural = (hours == 1) ? '' : 's';
+      text.push(hours + " hour" + plural);
+    }
+    if (minutes >= 0) {
+      plural = (minutes == 1) ? '' : 's';
+      text.push(minutes + " minute" + plural);
+    }
+    if (seconds >= 0) {
+      plural = (seconds == 1) ? '' : 's';
+      text.push(seconds + " second" + plural);
+    }
+    $('#time_to_show').html(text.join(", "));
+  }
+}, 1000);
+    </script>
+    <style>
+body {
+  background-image: url("taylor-swift-1989-classic.jpg");
+  background-position: 50% 50%;
+  background-repeat: repeat;
+}
+    </style>
+  </head>
+  <body>
+    <div align="center" class="alert alert-info">
+      <div id="showtime">Taylor Swift</div>
+      <div id="time_to_show">💖</div>
+      <div>
+  </body>
+</html>    
